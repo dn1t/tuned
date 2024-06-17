@@ -1,0 +1,16 @@
+dist
+.solid
+.output
+.vercel
+.vinxi
+
+.env
+.env*.local
+
+/node_modules
+
+.settings/
+
+.DS_Store
+._*
+Thumbs.db
