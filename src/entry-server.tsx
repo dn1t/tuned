@@ -14,6 +14,7 @@ export default createHandler(() => (
         <body>
           <div id='app'>{children}</div>
           {scripts}
+          <script innerHTML="(()=>{const t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;else document.documentElement.dataset.theme=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'})()" />
         </body>
       </html>
     )}
