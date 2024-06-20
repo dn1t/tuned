@@ -4,6 +4,8 @@
   color-scheme: light dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  --font-sans: 'Pretendard Variable', sans-serif;
+  --font-display: 'Onest', var(--font-sans);
 }
 
 *,
@@ -16,6 +18,11 @@ html {
   -moz-text-size-adjust: none;
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--gray-1);
 }
 
 body,

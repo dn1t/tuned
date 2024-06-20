@@ -1,0 +1,52 @@
+.navWrapper {
+  height: 4.5rem;
+  padding: 0 1rem;
+  background-color: var(--gray-1);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  max-width: 56rem;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.logo {
+  width: 2rem;
+  height: 2rem;
+}
+
+.logoText {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  column-gap: 3rem;
+  height: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0 4rem;
+
+}
+
+.menuItem {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-weight: 500;
+  font-size: 18px;
+  text-decoration: none;
+  color: var(--gray-11);
+}

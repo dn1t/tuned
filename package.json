@@ -16,7 +16,8 @@
     "vinxi": "^0.3.11"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.1"
+    "@biomejs/biome": "1.8.1",
+    "scss": "^0.2.4"
   },
-  "trustedDependencies": ["@biomejs/biome"]
+  "trustedDependencies": ["@biomejs/biome", "esbuild"]
 }

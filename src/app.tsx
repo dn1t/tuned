@@ -1,16 +1,15 @@
 import { MetaProvider, Title as _Title } from '@solidjs/meta';
 import { Router, type RouteSectionProps } from '@solidjs/router';
 import { FileRoutes } from '@solidjs/start/router';
-import {
-  Suspense,
-  createContext,
-  createSignal,
-  onMount,
-  type JSX,
-  type ParentProps,
-} from 'solid-js';
+import { Suspense, type JSX } from 'solid-js';
+import { ThemeProvider } from './theme';
 
+import '@radix-ui/colors/gray-dark.css';
+import '@radix-ui/colors/gray.css';
+
+import './fonts.css';
 import './global.css';
+import { Nav } from './components/layout/nav';
 
 export function Title(props: JSX.HTMLAttributes<HTMLTitleElement>) {
   return (
@@ -20,34 +19,12 @@ export function Title(props: JSX.HTMLAttributes<HTMLTitleElement>) {
   );
 }
 
-export type ThemeType = 'system' | 'light' | 'dark';
-
-const ThemeContext = createContext<ThemeType>('system');
-
-function ThemeProvider(props: ParentProps) {
-  const [theme, setTheme] = createSignal<ThemeType>('system');
-
-  onMount(() => {
-    const t = localStorage.getItem('theme');
-    window
-      .matchMedia('(prefers-color-scheme:dark)')
-      .addEventListener('change', (m) => {
-        if (t !== 'light' && t !== 'dark') setTheme(m ? 'dark' : 'light');
-      });
-  });
-
-  return (
-    <ThemeContext.Provider value={theme()}>
-      <main>{props.children}</main>
-    </ThemeContext.Provider>
-  );
-}
-
 function Root(props: RouteSectionProps) {
   return (
     <MetaProvider>
       <Title />
       <ThemeProvider>
+        <Nav />
         <Suspense>{props.children}</Suspense>
       </ThemeProvider>
     </MetaProvider>
