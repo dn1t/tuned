@@ -16,6 +16,8 @@
     "@tuned/tailwind-config": "workspace:*",
     "nitro": "3.0.1-alpha.2",
     "solid-js": "^1.9.11",
+    "tailwind-merge": "^3.5.0",
+    "tailwind-variants": "^3.2.2",
     "tailwindcss": "catalog:",
     "vite": "^7.3.1"
   }
