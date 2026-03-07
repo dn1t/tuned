@@ -1,0 +1,14 @@
+{
+  "name": "@tuned/monorepo",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @tuned/web dev"
+  },
+  "author": "David Lee <me@tica.fun>",
+  "license": "AGPL-3.0-only",
+  "packageManager": "pnpm@10.30.3",
+  "dependencies": {
+    "@biomejs/biome": "2.4.6"
+  }
+}

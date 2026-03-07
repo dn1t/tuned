@@ -1,0 +1,10 @@
+packages:
+  - apps/*
+  - libs/*
+
+catalog:
+  tailwindcss: ^4.2.1
+
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+  - esbuild

@@ -1,0 +1,13 @@
+node_modules/
+.vinxi/
+.vite/
+.output/
+dist/
+app.config.timestamp_*.js
+
+.DS_Store
+._*
+Thumbs.db
+
+.env
+.env*.local
