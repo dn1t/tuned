@@ -1,7 +1,7 @@
 import { A, useLocation } from "@solidjs/router";
-import { Logo } from "../common/logo";
-import { For } from "solid-js";
+import { For, Show } from "solid-js";
 import { cn } from "tailwind-variants";
+import { Logo } from "../common/logo";
 
 interface NavItemProps {
   href: string;
@@ -14,18 +14,22 @@ const items: NavItemProps[] = [
 ];
 
 export function Nav() {
+  const location = useLocation();
+
   return (
-    <nav class="h-18 border-b border-b-zinc-100 px-4">
-      <div class="mx-auto flex h-full max-w-4xl items-center px-4">
-        <A href="/" class="flex items-center gap-x-2 font-bold font-display text-[22px]">
-          <Logo class="h-6 w-6" />
-          tuned
-        </A>
-        <ul class="mt-px ml-18 flex items-center gap-x-2 font-[550] text-zinc-600">
-          <For each={items}>{(item) => <NavItem {...item} />}</For>
-        </ul>
-      </div>
-    </nav>
+    <Show when={!location.pathname.startsWith("/editor")}>
+      <nav class="h-18 border-b border-b-zinc-100 px-4">
+        <div class="mx-auto flex h-full max-w-4xl items-center px-4">
+          <A href="/" class="flex items-center gap-x-2 font-bold font-display text-[22px]">
+            <Logo class="h-6 w-6" />
+            tuned
+          </A>
+          <ul class="mt-px ml-18 flex items-center gap-x-2 font-[550] text-zinc-600">
+            <For each={items}>{(item) => <NavItem {...item} />}</For>
+          </ul>
+        </div>
+      </nav>
+    </Show>
   );
 }
 

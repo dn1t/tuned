@@ -9,7 +9,7 @@
     "jsxImportSource": "solid-js",
     "strict": true,
     "noEmit": true,
-    "types": ["vite/client"],
+    "types": ["vite/client", "unplugin-icons/types/solid"],
     "isolatedModules": true,
     "paths": {
       "~/*": ["./src/*"]

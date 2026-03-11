@@ -35,3 +35,7 @@
   --color-brand-900: #2d3482;
   --color-brand-950: #1a1c4c;
 }
+
+@utility caret-underscore {
+  caret-shape: underscore;
+}
