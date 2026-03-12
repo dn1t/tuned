@@ -1,5 +1,11 @@
 // @refresh reload
+import { join } from "node:path";
 import { createHandler, StartServer } from "@solidjs/start/server";
+import { config } from "dotenv";
+
+if (!process.env.GENIUS_ACCESS_TOKEN) {
+  config({ path: join(import.meta.dirname, "../../../.env"), quiet: true });
+}
 
 export default createHandler(() => (
   <StartServer

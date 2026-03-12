@@ -1,21 +1,28 @@
 import { A } from "@solidjs/router";
-import { onMount, type Signal } from "solid-js";
+import { createSignal, onMount } from "solid-js";
+import type { SetStoreFunction, Store } from "solid-js/store";
 import { cn } from "tailwind-variants";
+import type { CupInfo } from "~/routes/editor";
 import PlusIcon from "~icons/ph/plus-bold";
 import { Button } from "../common/button";
 import { GeniusLogo } from "../common/genius";
 import { Logo } from "../common/logo";
+import { Modal } from "../common/modal";
+import { GeniusModal } from "./genius-modal";
 
 interface NavProps {
-  titleSignal: Signal<string>;
+  info: [Store<CupInfo>, SetStoreFunction<CupInfo>];
 }
 
 export function Nav(props: NavProps) {
-  const [title, setTitle] = props.titleSignal;
+  const [info, setInfo] = props.info;
+  const [modalOpen, setModalOpen] = createSignal(false);
   let inputRef!: HTMLInputElement;
 
   onMount(() => {
     inputRef.select();
+
+    setModalOpen(true);
   });
 
   return (
@@ -32,21 +39,28 @@ export function Nav(props: NavProps) {
           class="ml-7 w-64 rounded-[10px] border border-zinc-200 bg-zinc-100 px-3 py-2 font-medium leading-none caret-underscore focus:outline-none focus:ring-2 focus:ring-brand-400"
           placeholder="제목"
           autofocus
-          value={title()}
-          onInput={(e) => setTitle(e.currentTarget.value)}
+          autocomplete="off"
+          value={info.title}
+          onInput={(e) => setInfo("title", e.currentTarget.value)}
         />
       </section>
       <section class="mx-2 flex items-center rounded-xl border border-zinc-200 bg-zinc-100 p-1.5">
         <Button
+          class="focus:z-0"
           icon={(props) => (
             <div class={cn(props.class, "flex items-center justify-center")}>
               <GeniusLogo class="h-3.5 w-3.5" />
             </div>
           )}
+          onClick={() => setModalOpen(true)}
         >
           Genius에서 추가
         </Button>
         <Button icon={(props) => <PlusIcon {...props} />}>직접 추가</Button>
+        <Modal open={[modalOpen, setModalOpen]}>
+          <GeniusModal />
+        </Modal>
+        {modalOpen() ? "open" : "closed"}
       </section>
     </nav>
   );
