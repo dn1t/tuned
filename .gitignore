@@ -1,9 +1,7 @@
 node_modules/
-.vinxi/
-.vite/
-.output/
 dist/
-app.config.timestamp_*.js
+*.tsbuildinfo
+.cache
 
 .DS_Store
 ._*
