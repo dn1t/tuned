@@ -5,17 +5,17 @@
 @layer base {
   :root {
     @apply antialiased;
-    color-scheme: light;
+    color-scheme: dark;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
   }
 
-  body.dark {
-    color-scheme: dark;
+  body {
+    @apply bg-black;
   }
 
   *::selection {
-    @apply bg-brand-600 text-white;
+    @apply bg-brand-400 text-white;
   }
 }
 
@@ -23,17 +23,17 @@
   --font-display: O, P, sans-serif;
   --font-sans: P, sans-serif;
 
-  --color-brand-50: #eef4ff;
-  --color-brand-100: #e0ebff;
-  --color-brand-200: #c6d9ff;
-  --color-brand-300: #a6bffd;
-  --color-brand-400: #8099f9;
-  --color-brand-500: #6176f3;
-  --color-brand-600: #444ee7;
-  --color-brand-700: #363bcc;
-  --color-brand-800: #2f35a4;
-  --color-brand-900: #2d3482;
-  --color-brand-950: #1a1c4c;
+  --color-brand-50: #eefff2;
+  --color-brand-100: #d8ffe3;
+  --color-brand-200: #b3ffc8;
+  --color-brand-300: #79fc9f;
+  --color-brand-400: #3df172;
+  --color-brand-500: #0ed94a;
+  --color-brand-600: #04b539;
+  --color-brand-700: #088d30;
+  --color-brand-800: #0c6f2b;
+  --color-brand-900: #0c5b26;
+  --color-brand-950: #003312;
 }
 
 @utility caret-underscore {
