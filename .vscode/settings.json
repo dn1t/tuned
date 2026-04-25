@@ -1,6 +1,5 @@
 {
   "files.associations": {
     "tailwind.css": "tailwindcss"
-  },
-  "tailwindCSS.classFunctions": ["tv", "cn"]
+  }
 }
