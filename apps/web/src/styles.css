@@ -1,1 +1,8 @@
 @import '@tuned/tailwind-config';
+
+.os-scrollbar {
+  --os-padding-axis: 14px;
+  --os-handle-bg: rgb(from var(--color-zinc-400) r g b / 30%);
+  --os-handle-bg-hover: rgb(from var(--color-zinc-400) r g b / 40%);
+  --os-handle-bg-active: rgb(from var(--color-zinc-400) r g b / 40%);
+}

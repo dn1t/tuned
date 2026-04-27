@@ -41,6 +41,12 @@ importers:
       hono:
         specifier: ^4.12.15
         version: 4.12.15
+      overlayscrollbars:
+        specifier: ^2.15.1
+        version: 2.15.1
+      overlayscrollbars-react:
+        specifier: ^0.5.6
+        version: 0.5.6(overlayscrollbars@2.15.1)(react@19.2.5)
       react:
         specifier: 'catalog:'
         version: 19.2.5
@@ -869,6 +875,15 @@ packages:
 
   node-releases@2.0.38:
     resolution: {integrity: sha512-3qT/88Y3FbH/Kx4szpQQ4HzUbVrHPKTLVpVocKiLfoYvw9XSGOX2FmD2d6DrXbVYyAQTF2HeF6My8jmzx7/CRw==}
+
+  overlayscrollbars-react@0.5.6:
+    resolution: {integrity: sha512-E5To04bL5brn9GVCZ36SnfGanxa2I2MDkWoa4Cjo5wol7l+diAgi4DBc983V7l2nOk/OLJ6Feg4kySspQEGDBw==}
+    peerDependencies:
+      overlayscrollbars: ^2.0.0
+      react: '>=16.8.0'
+
+  overlayscrollbars@2.15.1:
+    resolution: {integrity: sha512-glX26JwjL+Tkzv0JNOWdW4VozP5dGXO+Wx8+TPrdTEJTSYT/8eJS8yXM+fewjU0nFq/JeCa+X+BqABNjC4YZSA==}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -1750,6 +1765,13 @@ snapshots:
   neo-async@2.6.2: {}
 
   node-releases@2.0.38: {}
+
+  overlayscrollbars-react@0.5.6(overlayscrollbars@2.15.1)(react@19.2.5):
+    dependencies:
+      overlayscrollbars: 2.15.1
+      react: 19.2.5
+
+  overlayscrollbars@2.15.1: {}
 
   picocolors@1.1.1: {}
 

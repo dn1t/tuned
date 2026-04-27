@@ -1,16 +1,7 @@
-import { Nav } from "../components/editor/nav";
-import { Sidebar } from "../components/editor/sidebar";
+import { Editor as EditorInner } from "../components/editor/editor";
 
 export default function Editor() {
-  return (
-    <div className="flex h-screen flex-col">
-      <Nav />
-      <div className="flex h-full">
-        <Sidebar />
-        <div />
-      </div>
-    </div>
-  );
+  return <EditorInner />;
 }
 
 export const getConfig = async () => {

@@ -1,3 +1,4 @@
+import "overlayscrollbars/overlayscrollbars.css";
 import "../styles.css";
 
 import type { ReactNode } from "react";

@@ -11,6 +11,8 @@
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
     "hono": "^4.12.15",
+    "overlayscrollbars": "^2.15.1",
+    "overlayscrollbars-react": "^0.5.6",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-server-dom-webpack": "~19.2.5",

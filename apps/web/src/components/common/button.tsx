@@ -17,9 +17,9 @@ interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
   variant?: VariantProps<typeof button>["color"];
 }
 
-export function Button({ children, className, variant, ...props }: ButtonProps) {
+export function Button({ children, className, variant, type, ...props }: ButtonProps) {
   return (
-    <button {...props} className={button({ color: variant, className })}>
+    <button {...props} type={type ?? "button"} className={button({ color: variant, className })}>
       {children}
     </button>
   );
