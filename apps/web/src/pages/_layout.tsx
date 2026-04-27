@@ -1,5 +1,6 @@
-import type { ReactNode } from "react";
 import "../styles.css";
+
+import type { ReactNode } from "react";
 import { Nav } from "../components/layout/nav";
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
