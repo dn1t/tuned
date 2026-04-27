@@ -2,9 +2,5 @@
   "files.associations": {
     "tailwind.css": "tailwindcss"
   },
-  "tailwindCSS.classFunctions": [
-    "tv",
-    "cn"
-  ],
-  "svg.preview.background": "transparent"
+  "tailwindCSS.classFunctions": ["tv", "cn"]
 }

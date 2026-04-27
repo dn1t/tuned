@@ -1,5 +1,11 @@
+import { Nav } from "../components/editor/nav";
+
 export default function Editor() {
-  return <div>Editor</div>;
+  return (
+    <>
+      <Nav />
+    </>
+  );
 }
 
 export const getConfig = async () => {

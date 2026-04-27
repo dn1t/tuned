@@ -1,3 +1,4 @@
+import type { ComponentPropsWithoutRef } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 
 const button = tv({
@@ -12,7 +13,7 @@ const button = tv({
   defaultVariants: { color: "normal" },
 });
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
   variant?: VariantProps<typeof button>["color"];
 }
 
