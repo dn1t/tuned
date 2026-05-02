@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { SearchGenius } from "../../pages/editor";
 import { Nav } from "./nav";
 import { Sidebar } from "./sidebar";
 
@@ -8,12 +9,12 @@ export interface EditorItem {
   id: string;
   coverUrl: string | null;
   title: string;
-  album: string;
-  artist: string;
-  releaseYear: number;
+  artists: string;
+  featuringArtists: string | null;
+  releaseYear: string;
 }
 
-export function Editor() {
+export function Editor({ searchGenius }: { searchGenius: SearchGenius }) {
   const [items, setItems] = useState<EditorItem[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -22,10 +23,10 @@ export function Editor() {
       {
         id: crypto.randomUUID(),
         coverUrl: "https://picsum.photos/id/1027/1000",
-        title: "Gold Rings (feat. Pusha T)",
-        album: "$oul $old $eparately",
-        artist: "Freddie Gibbs",
-        releaseYear: 2022,
+        title: "Palmolive",
+        artists: "Freddie Gibbs & Madlib",
+        featuringArtists: "Pusha T & Killer Mike",
+        releaseYear: "2019",
       },
     ]);
   }, []);
@@ -34,7 +35,7 @@ export function Editor() {
     <div className="flex h-screen max-h-screen flex-col">
       <Nav />
       <div className="flex h-full">
-        <Sidebar itemsState={[items, setItems]} selectedState={[selected, setSelected]} />
+        <Sidebar itemsState={[items, setItems]} selectedState={[selected, setSelected]} searchGenius={searchGenius} />
         <div />
       </div>
     </div>

@@ -4,6 +4,7 @@ import { ImageIcon, PlusIcon, SortAscendingIcon } from "@phosphor-icons/react";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { useState } from "react";
 import { cn } from "tailwind-variants";
+import type { SearchGenius } from "../../pages/editor";
 import { Button } from "../common/button";
 import { Select } from "../common/select";
 import { AddItemModal } from "./add-item-modal";
@@ -19,9 +20,11 @@ enum Sort {
 export function Sidebar({
   itemsState,
   selectedState,
+  searchGenius,
 }: {
   itemsState: [EditorItem[], React.Dispatch<React.SetStateAction<EditorItem[]>>];
   selectedState: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
+  searchGenius: SearchGenius;
 }) {
   const [sort, setSort] = useState<Sort>(Sort.Added);
   const [items, setItems] = itemsState;
@@ -45,7 +48,7 @@ export function Sidebar({
     <>
       <section className="flex h-full w-72 flex-col px-2">
         <div className="flex items-end border-b-4 border-b-transparent pr-1.25 pl-2.25">
-          <AddItemModal openState={[showModal, setShowModal]} addItem={addItem} />
+          <AddItemModal openState={[showModal, setShowModal]} addItem={addItem} searchGenius={searchGenius} />
           <Button
             onClick={() => setShowModal(true)}
             className="flex w-max items-center gap-1 rounded-lg py-1.5 pr-3.25 pl-2.25 text-xs"
@@ -85,17 +88,26 @@ export function Sidebar({
                 key={item.id}
               >
                 <div
-                  className="flex h-12 w-12 items-center justify-center rounded-lg border border-zinc-700 bg-center bg-contain bg-zinc-900 bg-no-repeat"
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-zinc-700 bg-center bg-contain bg-zinc-900 bg-no-repeat"
                   style={item.coverUrl ? { backgroundImage: `url(${item.coverUrl})` } : undefined}
                 >
                   {!item.coverUrl && <ImageIcon className="text-zinc-400" size={24} />}
                 </div>
-                <div className="flex flex-col items-start">
-                  <span className="mt-px font-semibold text-sm text-zinc-200 leading-none">{item.title}</span>
-                  <span className="mt-0.5 text-start text-xs text-zinc-300 leading-none">{item.artist}</span>
-                  <span className="mt-0.5 text-start text-xs text-zinc-400 leading-none">
-                    {item.album} ({item.releaseYear})
+                <div className="flex min-w-0 flex-col items-start">
+                  <span className="flex w-full">
+                    <span className="mt-px overflow-hidden text-ellipsis whitespace-nowrap text-start font-semibold text-sm text-zinc-200 leading-none">
+                      {item.title}
+                    </span>
+                    <span className="ml-1 w-max text-xs text-zinc-400">({item.releaseYear})</span>
                   </span>
+                  <span className="mt-0.5 w-full overflow-hidden text-ellipsis whitespace-nowrap text-start text-xs text-zinc-300 leading-none">
+                    {item.artists}
+                  </span>
+                  {item.featuringArtists && (
+                    <span className="mt-0.5 w-full overflow-hidden text-ellipsis whitespace-nowrap text-start text-xs text-zinc-400 leading-none">
+                      feat. {item.featuringArtists}
+                    </span>
+                  )}
                 </div>
               </button>
             );
