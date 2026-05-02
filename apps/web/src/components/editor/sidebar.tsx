@@ -6,6 +6,7 @@ import { useState } from "react";
 import { cn } from "tailwind-variants";
 import { Button } from "../common/button";
 import { Select } from "../common/select";
+import { AddItemModal } from "./add-item-modal";
 import type { EditorItem } from "./editor";
 
 enum Sort {
@@ -26,6 +27,7 @@ export function Sidebar({
   const [items, setItems] = itemsState;
   const [selected, setSelected] = selectedState;
   const [scrollTop, setScrollTop] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   function addItem(item: EditorItem) {
     setItems((prev) => [...prev, item]);
@@ -43,17 +45,9 @@ export function Sidebar({
     <>
       <section className="flex h-full w-72 flex-col px-2">
         <div className="flex items-end border-b-4 border-b-transparent pr-1.25 pl-2.25">
+          <AddItemModal openState={[showModal, setShowModal]} addItem={addItem} />
           <Button
-            onClick={() =>
-              addItem({
-                id: crypto.randomUUID(),
-                coverUrl:
-                  "https://a5.mzstatic.com/us/r1000/0/Music118/v4/a0/ef/93/a0ef93f8-8cd6-d4ab-998c-eb376102a78e/8806163368283.jpg",
-                title: "DOOM DADA",
-                album: "DOOM DADA - Single",
-                artist: "T.O.P",
-              })
-            }
+            onClick={() => setShowModal(true)}
             className="flex w-max items-center gap-1 rounded-lg py-1.5 pr-3.25 pl-2.25 text-xs"
           >
             <PlusIcon weight="bold" size={12} />
@@ -85,7 +79,7 @@ export function Sidebar({
                 type="button"
                 className={cn(
                   "flex w-full cursor-pointer items-center gap-x-3 rounded-[11px] border border-transparent p-1.75",
-                  selected === item.id && "border-zinc-700 bg-zinc-900",
+                  selected === item.id && "border-zinc-800 bg-zinc-950",
                 )}
                 onClick={() => setSelected(item.id)}
                 key={item.id}
@@ -97,9 +91,10 @@ export function Sidebar({
                   {!item.coverUrl && <ImageIcon className="text-zinc-400" size={24} />}
                 </div>
                 <div className="flex flex-col items-start">
-                  <span className="mt-px font-semibold text-zinc-200 leading-none">{item.title}</span>
-                  <span className="mt-0.5 text-xs text-zinc-400 leading-none">
-                    {item.artist} · {item.album}
+                  <span className="mt-px font-semibold text-sm text-zinc-200 leading-none">{item.title}</span>
+                  <span className="mt-0.5 text-start text-xs text-zinc-300 leading-none">{item.artist}</span>
+                  <span className="mt-0.5 text-start text-xs text-zinc-400 leading-none">
+                    {item.album} ({item.releaseYear})
                   </span>
                 </div>
               </button>

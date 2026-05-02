@@ -18,6 +18,11 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "a11y": {
+        "noLabelWithoutControl": "off",
+        "useKeyWithClickEvents": "off",
+        "useKeyWithMouseEvents": "off"
+      },
       "nursery": {
         "useSortedClasses": "warn"
       },

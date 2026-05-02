@@ -6,7 +6,8 @@ const button = tv({
   variants: {
     color: {
       primary: "bg-brand-400",
-      secondary: "bg-brand-100 text-brand-700",
+      secondary: "bg-brand-950 text-brand-400",
+      dangerous: "bg-red-950 text-red-400",
       normal: "bg-gray-200",
     },
   },
