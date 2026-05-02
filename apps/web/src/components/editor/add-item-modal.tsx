@@ -17,6 +17,7 @@ interface AddItemModalProps {
 
 export function AddItemModal({ openState, addItem, searchGenius }: AddItemModalProps) {
   const ref = useRef<HTMLFormElement>(null);
+  const timer = useRef<NodeJS.Timeout | null>(null);
   const [, setOpen] = openState;
   const [page, setPage] = useState<"form" | "search">("form");
   const [coverUrl, setCoverUrl] = useState<string | null>(null);
@@ -26,8 +27,8 @@ export function AddItemModal({ openState, addItem, searchGenius }: AddItemModalP
 
   useEffect(() => {
     if (page !== "search") return;
-    const timer = setTimeout(() => searchGenius(query).then(setSearchResults), 500);
-    return () => clearTimeout(timer);
+    timer.current = setTimeout(() => searchGenius(query).then(setSearchResults), 500);
+    return () => void (timer.current && clearTimeout(timer.current));
   }, [query, page, searchGenius]);
 
   return (
@@ -120,8 +121,16 @@ export function AddItemModal({ openState, addItem, searchGenius }: AddItemModalP
         </div>
       </form>
       {page === "search" && (
-        <div className="mt-1.5 flex flex-col">
+        <form
+          className="mt-1.5 flex flex-col"
+          onSubmit={(e) => {
+            e.preventDefault();
+            searchGenius(e.currentTarget.query.value).then(setSearchResults);
+            if (timer.current) clearTimeout(timer.current);
+          }}
+        >
           <Input
+            name="query"
             className="mb-2.5"
             placeholder="freddie gibbs madlib palmolive"
             required
@@ -194,7 +203,7 @@ export function AddItemModal({ openState, addItem, searchGenius }: AddItemModalP
           <Button type="button" variant="secondary" className="mt-2 w-max" onClick={() => setPage("form")}>
             직접 입력
           </Button>
-        </div>
+        </form>
       )}
     </Modal>
   );
