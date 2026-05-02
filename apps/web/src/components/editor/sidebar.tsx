@@ -79,7 +79,7 @@ export function Sidebar({
                 type="button"
                 className={cn(
                   "flex w-full cursor-pointer items-center gap-x-3 rounded-[11px] border border-transparent p-1.75",
-                  selected === item.id && "border-zinc-800 bg-zinc-950",
+                  selected === item.id && "border-brand-900 bg-brand-950",
                 )}
                 onClick={() => setSelected(item.id)}
                 key={item.id}
