@@ -26,7 +26,7 @@ export function AddItemModal({ openState, addItem, searchGenius }: AddItemModalP
   const [scrollTop, setScrollTop] = useState(0);
 
   useEffect(() => {
-    if (page !== "search") return;
+    if (page !== "search" || query.trim() === "") return;
     timer.current = setTimeout(() => searchGenius(query).then(setSearchResults), 500);
     return () => void (timer.current && clearTimeout(timer.current));
   }, [query, page, searchGenius]);
