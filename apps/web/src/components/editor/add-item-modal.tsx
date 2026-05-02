@@ -150,7 +150,7 @@ export function AddItemModal({ openState, addItem, searchGenius }: AddItemModalP
                 <li key={item.id}>
                   <button
                     type="button"
-                    className="flex w-full cursor-pointer items-center gap-x-3 rounded-[11px] border border-transparent p-1.75"
+                    className="flex w-full cursor-pointer items-center gap-x-3 rounded-[11px] border border-transparent p-1.75 ring-brand-900 transition focus:border-brand-700 focus:outline-none focus:ring-2"
                     onClick={() => {
                       if (!ref.current) return;
                       setCoverUrl(item.coverUrl);

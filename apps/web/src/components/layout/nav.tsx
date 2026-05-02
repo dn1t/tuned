@@ -23,7 +23,10 @@ export function Nav() {
   return (
     <nav className="px-4">
       <div className="mx-auto flex h-16 max-w-4xl items-center pb-px">
-        <Link to="/" className="relative pr-3.25 font-display font-semibold text-[22px]">
+        <Link
+          to="/"
+          className="relative pr-3.25 font-display font-semibold text-[22px] focus:outline-none focus:ring-2 focus:ring-brand-700"
+        >
           tuned
           <Logo className="absolute top-1.5 right-0 h-2.5 w-2.5 fill-brand-300" />
         </Link>
@@ -31,10 +34,13 @@ export function Nav() {
           {items.map((item) => {
             const selected = item.href === "/" ? path === "/" : path.startsWith(item.href);
             return (
-              <li key={item.href}>
+              <li className="flex items-center" key={item.href}>
                 <Link
                   to={item.href}
-                  className={cn("inline-flex h-full items-center px-4 text-zinc-400", selected && "text-white")}
+                  className={cn(
+                    "inline-flex items-center px-4 py-2 text-zinc-400 focus:outline-none focus:ring-2 focus:ring-brand-700",
+                    selected && "text-white",
+                  )}
                 >
                   {item.label}
                 </Link>

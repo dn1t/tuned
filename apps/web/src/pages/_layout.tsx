@@ -1,10 +1,9 @@
 import "overlayscrollbars/overlayscrollbars.css";
 import "../styles.css";
 
-import type { ReactNode } from "react";
 import { Nav } from "../components/layout/nav";
 
-export default async function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <link rel="icon" type="image/svg+xml" href="/icon.svg" />
