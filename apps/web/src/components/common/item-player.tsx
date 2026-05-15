@@ -28,7 +28,7 @@ export function ItemPlayer({
           </>
         )}
         {youtubeId && (
-          <div className="z-10 mb-6 aspect-video w-full max-w-xl items-stretch overflow-clip rounded-xl border border-zinc-800">
+          <div className="z-10 mb-6 aspect-video w-full max-w-xl items-stretch overflow-clip rounded-xl shadow-xl">
             <iframe
               className="h-full w-full"
               src={`https://www.youtube.com/embed/${youtubeId}`}
@@ -38,7 +38,7 @@ export function ItemPlayer({
         )}
         <div className="relative z-10 flex w-full max-w-xl gap-x-5 px-4">
           <div
-            className="flex h-22 w-22 shrink-0 items-center justify-center rounded-xl border border-zinc-800 bg-center bg-contain bg-zinc-900 bg-no-repeat"
+            className="flex h-22 w-22 shrink-0 items-center justify-center rounded-xl bg-center bg-contain bg-zinc-900 bg-no-repeat shadow-xl"
             style={coverUrl ? { backgroundImage: `url(${coverUrl})` } : undefined}
           >
             {!coverUrl && <ImageIcon className="text-zinc-400" size={24} />}
@@ -56,14 +56,8 @@ export function ItemPlayer({
       </div>
       <svg className="absolute h-0 w-0">
         <filter id="swirl">
-          <feTurbulence baseFrequency="0.010" numOctaves="2" result="wrap" type="fractalNoise"></feTurbulence>
-          <feDisplacementMap
-            in="SourceGraphic"
-            in2="wrap"
-            scale="300"
-            xChannelSelector="R"
-            yChannelSelector="B"
-          ></feDisplacementMap>
+          <feTurbulence baseFrequency="0.010" numOctaves="2" result="wrap" type="fractalNoise" />
+          <feDisplacementMap in="SourceGraphic" in2="wrap" scale="300" xChannelSelector="R" yChannelSelector="B" />
         </filter>
       </svg>
     </>
