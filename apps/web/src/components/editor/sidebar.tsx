@@ -4,11 +4,11 @@ import { ImageIcon, PlusIcon, SortAscendingIcon } from "@phosphor-icons/react";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { useState } from "react";
 import { cn } from "tailwind-variants";
-import type { SearchGenius } from "../../pages/editor";
+import type { FetchSongInfo, SearchGenius } from "../../pages/editor";
+import type { Item } from "../../types";
 import { Button } from "../common/button";
 import { Select } from "../common/select";
 import { AddItemModal } from "./add-item-modal";
-import type { EditorItem } from "./editor";
 
 enum Sort {
   Added = "added",
@@ -21,10 +21,12 @@ export function Sidebar({
   itemsState,
   selectedState,
   searchGenius,
+  fetchSongInfo,
 }: {
-  itemsState: [EditorItem[], React.Dispatch<React.SetStateAction<EditorItem[]>>];
+  itemsState: [Item[], React.Dispatch<React.SetStateAction<Item[]>>];
   selectedState: [string | null, React.Dispatch<React.SetStateAction<string | null>>];
   searchGenius: SearchGenius;
+  fetchSongInfo: FetchSongInfo;
 }) {
   const [sort, setSort] = useState<Sort>(Sort.Added);
   const [items, setItems] = itemsState;
@@ -32,7 +34,7 @@ export function Sidebar({
   const [scrollTop, setScrollTop] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
-  function addItem(item: EditorItem) {
+  function addItem(item: Item) {
     setItems((prev) => [...prev, item]);
   }
 
@@ -40,7 +42,7 @@ export function Sidebar({
     setItems((prev) => prev.filter((item) => item.id !== id));
   }
 
-  function updateItem(id: string, newItem: Partial<EditorItem>) {
+  function updateItem(id: string, newItem: Partial<Item>) {
     setItems((prev) => prev.map((item) => (item.id === id ? { ...item, ...newItem } : item)));
   }
 
@@ -48,7 +50,12 @@ export function Sidebar({
     <>
       <section className="flex h-full w-72 flex-col px-2">
         <div className="flex items-end border-b-4 border-b-transparent pr-1.25 pl-2.25">
-          <AddItemModal openState={[showModal, setShowModal]} addItem={addItem} searchGenius={searchGenius} />
+          <AddItemModal
+            openState={[showModal, setShowModal]}
+            addItem={addItem}
+            searchGenius={searchGenius}
+            fetchSongInfo={fetchSongInfo}
+          />
           <Button
             onClick={() => setShowModal(true)}
             className="flex w-max items-center gap-1 rounded-lg py-1.5 pr-3.25 pl-2.25 text-xs"

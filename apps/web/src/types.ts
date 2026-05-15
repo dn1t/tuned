@@ -14,3 +14,21 @@ export type InferredPaths = RouteConfig extends {
 }
   ? AllowPathDecorators<UserPaths>
   : string;
+
+export interface Item {
+  id: string;
+  coverUrl: string | null;
+  title: string;
+  album: string;
+  artists: string;
+  featuringArtists: string | null;
+  releaseYear: string;
+  appleMusicId: string | null;
+  youtubeId: string | null;
+}
+
+export interface GeniusSongInfo {
+  album: string;
+  appleMusicId: string | null;
+  youtubeId: string | null;
+}

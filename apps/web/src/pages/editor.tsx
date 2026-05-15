@@ -1,7 +1,9 @@
 import { getEnv } from "waku";
-import { Editor as EditorInner, type EditorItem } from "../components/editor/editor";
+import { Editor as EditorInner } from "../components/editor/editor";
+import type { GeniusSongInfo, Item } from "../types";
 
-export type SearchGenius = (query: string) => Promise<EditorItem[]>;
+export type SearchGenius = (query: string) => Promise<Item[]>;
+export type FetchSongInfo = (id: string) => Promise<GeniusSongInfo>;
 
 function joinArtists(artists: string[] | undefined) {
   if (!artists || artists.length === 0) return "";
@@ -48,15 +50,36 @@ export default async function Editor() {
           id: hit.result.id.toString(),
           coverUrl: hit.result.song_art_image_url,
           title: hit.result.title,
+          album: "",
           artists: artists ?? "",
           featuringArtists: featuringArtists ?? null,
           releaseYear: hit.result.release_date_components?.year?.toString().padStart(4, "0") ?? "0000",
-        } satisfies EditorItem;
+        } satisfies Item;
       },
     );
   }
 
-  return <EditorInner searchGenius={searchGenius} />;
+  async function fetchSongInfo(id: string) {
+    "use server";
+
+    const accessToken = getEnv("GENIUS_ACCESS_TOKEN")!;
+    const res = await fetch(`https://api.genius.com/songs/${id}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    if (!res.ok) return { album: "", appleMusicId: null, youtubeId: null };
+    const data = await res.json();
+
+    const { album, apple_music_id: appleMusicId, media } = data.response.song;
+    const youtubeUrl = media.find((m: { provider: string }) => m.provider === "youtube")?.url;
+
+    return {
+      album: album?.name ?? "",
+      appleMusicId,
+      youtubeId: youtubeUrl ? new URL(youtubeUrl).searchParams.get("v") : null,
+    } satisfies GeniusSongInfo;
+  }
+
+  return <EditorInner searchGenius={searchGenius} fetchSongInfo={fetchSongInfo} />;
 }
 
 export const getConfig = async () => {

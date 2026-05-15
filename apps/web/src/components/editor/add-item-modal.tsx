@@ -1,28 +1,48 @@
 import { ImageIcon } from "@phosphor-icons/react";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { useEffect, useRef, useState } from "react";
-import type { SearchGenius } from "../../pages/editor";
+import { cn } from "tailwind-variants";
+import type { FetchSongInfo, SearchGenius } from "../../pages/editor";
+import type { Item } from "../../types";
 import { Button } from "../common/button";
 import { GeniusLogo } from "../common/genius";
 import { Input } from "../common/input";
 import { Modal } from "../common/modal";
-import type { EditorItem } from "./editor";
-import { cn } from "tailwind-variants";
-import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 interface AddItemModalProps {
   openState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-  addItem: (item: EditorItem) => void;
+  addItem: (item: Item) => void;
   searchGenius: SearchGenius;
+  fetchSongInfo: FetchSongInfo;
 }
 
-export function AddItemModal({ openState, addItem, searchGenius }: AddItemModalProps) {
+function parseYoutubeId(_url: string) {
+  const url = new URL(_url);
+  if (url.hostname === "youtu.be") return url.pathname.slice(1);
+  if (url.hostname === "www.youtube.com" && url.pathname === "/watch") return url.searchParams.get("v");
+  return null;
+}
+
+function parseAppleMusicId(_url: string) {
+  const url = new URL(_url);
+  if (url.hostname === "music.apple.com" || url.hostname === "beta.music.apple.com") {
+    if (url.pathname.includes("/album/")) return url.searchParams.get("i") ?? null;
+    if (url.pathname.includes("/song/")) {
+      const parts = url.pathname.split("/");
+      return parts[parts.length - 1] ?? null;
+    }
+  }
+  return null;
+}
+
+export function AddItemModal({ openState, addItem, searchGenius, fetchSongInfo }: AddItemModalProps) {
   const ref = useRef<HTMLFormElement>(null);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [, setOpen] = openState;
   const [page, setPage] = useState<"form" | "search">("form");
   const [coverUrl, setCoverUrl] = useState<string | null>(null);
   const [query, setQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<EditorItem[]>([]);
+  const [searchResults, setSearchResults] = useState<Item[]>([]);
   const [scrollTop, setScrollTop] = useState(0);
 
   useEffect(() => {
@@ -44,9 +64,12 @@ export function AddItemModal({ openState, addItem, searchGenius }: AddItemModalP
             id: crypto.randomUUID(),
             coverUrl,
             title: e.currentTarget.songTitle.value,
+            album: e.currentTarget.album.value,
             artists: e.currentTarget.artists.value,
             featuringArtists: e.currentTarget.featuringArtists.value ?? null,
             releaseYear: Number.parseInt(e.currentTarget.releaseYear.value, 10).toString().padStart(4, "0"),
+            appleMusicId: parseAppleMusicId(e.currentTarget.appleMusicUrl.value),
+            youtubeId: parseYoutubeId(e.currentTarget.youtubeUrl.value),
           });
           setOpen(false);
           setCoverUrl(null);
@@ -56,16 +79,20 @@ export function AddItemModal({ openState, addItem, searchGenius }: AddItemModalP
         <div className="grid grid-cols-2 gap-x-2.5">
           <label className="flex flex-col gap-y-0.75">
             <span className="px-1 text-xs text-zinc-300">아티스트</span>
-            <Input name="artists" placeholder="Freddie Gibbs & Madlib" required autoComplete="off" />
+            <Input name="artists" placeholder="Freddie Gibbs" required autoComplete="off" />
           </label>
           <label className="flex flex-col gap-y-0.75">
-            <span className="px-1 text-xs text-zinc-300">피처링 아티스트</span>
-            <Input name="featuringArtists" placeholder="Pusha T & Killer Mike" autoComplete="off" />
+            <span className="px-1 text-xs text-zinc-300">피처링 아티스트 (선택)</span>
+            <Input name="featuringArtists" placeholder="Kelly Price" autoComplete="off" />
           </label>
         </div>
         <label className="flex flex-col gap-y-0.75">
           <span className="px-1 text-xs text-zinc-300">제목</span>
-          <Input name="songTitle" placeholder="Palmolive" required autoComplete="off" />
+          <Input name="songTitle" placeholder="Couldn't Be Done" required autoComplete="off" />
+        </label>
+        <label className="flex flex-col gap-y-0.75">
+          <span className="px-1 text-xs text-zinc-300">앨범</span>
+          <Input name="album" placeholder="$oul $old $eparately" required autoComplete="off" />
         </label>
         <div className="mt-2.5 flex gap-x-2.5">
           <div
@@ -91,6 +118,20 @@ export function AddItemModal({ openState, addItem, searchGenius }: AddItemModalP
               placeholder="2022"
               className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               required
+              autoComplete="off"
+            />
+          </label>
+        </div>
+        <div className="mt-1 grid grid-cols-2 gap-x-2.5">
+          <label className="flex flex-col gap-y-0.75">
+            <span className="px-1 text-xs text-zinc-300">YouTube URL</span>
+            <Input name="youtubeUrl" placeholder="https://youtu.be/L8g3HiqIfBU" required autoComplete="off" />
+          </label>
+          <label className="flex flex-col gap-y-0.75">
+            <span className="px-1 text-xs text-zinc-300">Apple Music URL (선택)</span>
+            <Input
+              name="appleMusicUrl"
+              placeholder="https://music.apple.com/kr/song/couldnt-be-done/1642690127"
               autoComplete="off"
             />
           </label>
@@ -160,13 +201,20 @@ export function AddItemModal({ openState, addItem, searchGenius }: AddItemModalP
                   <button
                     type="button"
                     className="flex w-full cursor-pointer items-center gap-x-3 rounded-[11px] border border-transparent p-1.75 ring-brand-900 transition focus:border-brand-700 focus:outline-none focus:ring-2"
-                    onClick={() => {
+                    onClick={async () => {
                       if (!ref.current) return;
+                      const promise = fetchSongInfo(item.id);
                       setCoverUrl(item.coverUrl);
                       ref.current.artists.value = item.artists;
                       ref.current.featuringArtists.value = item.featuringArtists;
                       ref.current.songTitle.value = item.title;
                       ref.current.releaseYear.value = item.releaseYear.toString().padStart(4, "0");
+
+                      const res = await promise;
+                      ref.current.album.value = res.album;
+                      ref.current.youtubeUrl.value = `https://youtu.be/${res.youtubeId}`;
+                      ref.current.appleMusicUrl.value = `https://music.apple.com/song/${res.appleMusicId}`;
+
                       setPage("form");
                     }}
                   >
